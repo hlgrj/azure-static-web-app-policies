@@ -1,0 +1,41 @@
+{
+  "displayName": "Azure Static Web Apps should have public network access disabled",
+  "description": "Controls Azure Static Web Apps that have public network access enabled. Set the effect to Deny to block creation/update, or Audit to report non-compliant resources without blocking.",
+  "mode": "Indexed",
+  "metadata": {
+    "category": "App Service",
+    "version": "1.2.0"
+  },
+  "parameters": {
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Effect",
+        "description": "Deny blocks the request; Audit logs a compliance warning without blocking."
+      },
+      "allowedValues": [
+        "Audit",
+        "Deny",
+        "Disabled"
+      ],
+      "defaultValue": "Deny"
+    }
+  },
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Web/staticSites"
+        },
+        {
+          "field": "Microsoft.Web/staticSites/publicNetworkAccess",
+          "notEquals": "Disabled"
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  }
+}
