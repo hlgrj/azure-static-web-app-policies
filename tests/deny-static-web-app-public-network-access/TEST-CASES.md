@@ -43,7 +43,7 @@ az deployment group create \
   --parameters includeNonCompliant=true location=$LOCATION
 ```
 
-Expected: all three resources deploy successfully (`swa-tc2-*`, `swa-tc3-*`, `swa-tc4-*`) — no policy is assigned yet.
+Expected: all three resources deploy successfully (`stapp-tc2-*`, `stapp-tc3-*`, `stapp-tc4-*`) — no policy is assigned yet.
 
 ---
 
@@ -75,7 +75,7 @@ az policy state list \
   --output table
 ```
 
-Expected: `swa-tc3-*` (absent) and `swa-tc4-*` (Enabled) show `NonCompliant`; `swa-tc2-*` (Disabled) shows `Compliant`.
+Expected: `stapp-tc3-*` (absent) and `stapp-tc4-*` (Enabled) show `NonCompliant`; `stapp-tc2-*` (Disabled) shows `Compliant`.
 
 ---
 
@@ -99,7 +99,7 @@ az deployment group create \
   --parameters includeNonCompliant=false location=$LOCATION
 ```
 
-Expected: deployment succeeds; only `swa-tc2-*` (Disabled) is created or updated.
+Expected: deployment succeeds; only `stapp-tc2-*` (Disabled) is created or updated.
 
 ---
 
@@ -112,19 +112,19 @@ az deployment group create \
   --parameters includeNonCompliant=true location=$LOCATION
 ```
 
-Expected: deployment **fails** with `RequestDisallowedByPolicy` on `swa-tc3-noncompliant-default` (absent property) and `swa-tc4-noncompliant-existing` (explicitly Enabled).
+Expected: deployment **fails** with `RequestDisallowedByPolicy` on `stapp-tc3-noncompliant-default` (absent property) and `stapp-tc4-noncompliant-existing` (explicitly Enabled).
 
 ---
 
 ### Step 7 — Verify update Disabled → Enabled is blocked (TC5)
 
-Attempt to update `swa-tc2-*` to `Enabled` inline:
+Attempt to update `stapp-tc2-*` to `Enabled` inline:
 
 ```bash
 az deployment group create \
   --resource-group $RG \
   --template-file ../modules/static-web-app.bicep \
-  --parameters name=swa-tc2-compliant-disabled location=$LOCATION publicNetworkAccess=Enabled
+  --parameters name=stapp-tc2-compliant-disabled location=$LOCATION publicNetworkAccess=Enabled
 ```
 
 Expected: deployment **fails** with `RequestDisallowedByPolicy`.
@@ -133,16 +133,16 @@ Expected: deployment **fails** with `RequestDisallowedByPolicy`.
 
 ### Step 8 — Verify remediation (TC6)
 
-Update the pre-existing noncompliant resource (`swa-tc4-*`) to `Disabled`:
+Update the pre-existing noncompliant resource (`stapp-tc4-*`) to `Disabled`:
 
 ```bash
 az deployment group create \
   --resource-group $RG \
   --template-file ../modules/static-web-app.bicep \
-  --parameters name=swa-tc4-noncompliant-existing location=$LOCATION publicNetworkAccess=Disabled
+  --parameters name=stapp-tc4-noncompliant-existing location=$LOCATION publicNetworkAccess=Disabled
 ```
 
-Expected: deployment succeeds; `swa-tc4-*` transitions to `Compliant` on the next evaluation cycle.
+Expected: deployment succeeds; `stapp-tc4-*` transitions to `Compliant` on the next evaluation cycle.
 
 ---
 

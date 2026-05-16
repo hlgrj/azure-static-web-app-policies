@@ -1,0 +1,43 @@
+{
+  "displayName": "Azure Static Web Apps should follow CAF naming convention (stapp- prefix)",
+  "description": "Requires Azure Static Web Apps to have names starting with 'stapp-', the abbreviation recommended by the Microsoft Cloud Adoption Framework. Set the effect to Deny to block non-compliant resources, or Audit to report them without blocking. The prefix check is case-insensitive.",
+  "mode": "Indexed",
+  "metadata": {
+    "category": "App Service",
+    "version": "1.0.0"
+  },
+  "parameters": {
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Effect",
+        "description": "Audit logs a compliance warning without blocking; Deny blocks the request."
+      },
+      "allowedValues": [
+        "Audit",
+        "Deny",
+        "Disabled"
+      ],
+      "defaultValue": "Deny"
+    }
+  },
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Web/staticSites"
+        },
+        {
+          "not": {
+            "field": "name",
+            "like": "stapp-*"
+          }
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  }
+}
