@@ -10,6 +10,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) to add a new policy.
 |---|---|---|---|---|
 | [Deny public network access](#deny-static-web-apps-with-public-network-access-enabled) | `Microsoft.Web/staticSites` | App Service | 1.2.0 | Deny |
 | [Enforce CAF naming convention](#enforce-caf-naming-convention-stapp--prefix) | `Microsoft.Web/staticSites` | App Service | 1.0.0 | Deny |
+| [Require Standard SKU](#azure-static-web-apps-should-use-the-standard-sku) | `Microsoft.Web/staticSites` | App Service | 1.0.0 | Audit |
 
 ---
 
@@ -34,6 +35,18 @@ Denies creation or update of Azure Static Web Apps unless `publicNetworkAccess` 
 **Version:** 1.0.0
 
 Denies creation of Azure Static Web Apps whose name does not start with the `stapp-` prefix, as required by the [Microsoft Cloud Adoption Framework abbreviation recommendations](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations). The prefix check is case-insensitive. Because Static Web App names are immutable, the Deny effect is the only enforcement option — there is no in-place remediation path.
+
+---
+
+### Azure Static Web Apps should use the Standard SKU
+
+**Definition:** [`definitions/audit-static-web-app-standard-sku.json`](definitions/audit-static-web-app-standard-sku.json)  
+**Resource type:** `Microsoft.Web/staticSites`  
+**Effects:** `Audit` (default), `Deny`, `Disabled`  
+**Category:** App Service  
+**Version:** 1.0.0
+
+Audits Azure Static Web Apps deployed on the Free tier. Standard tier is a prerequisite for enterprise security features including private endpoints, enterprise-grade CDN, and managed identity integrations. Set the effect to `Deny` to block creation or update of Free-tier apps, or `Audit` to report non-compliant resources without blocking.
 
 ---
 
