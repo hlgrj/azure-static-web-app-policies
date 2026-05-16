@@ -1,6 +1,6 @@
-# Custom Azure Policies
+# Custom Azure Policies for Azure Static Web Apps
 
-Custom Azure Policy definitions, with Bicep-based test infrastructure. Each policy ships with a definition JSON, a parameterised test deployment, and a documented test sequence.
+Custom Azure Policy definitions for Azure Static Web Apps, with Bicep-based test infrastructure. Each policy ships with a definition JSON, a parameterised test deployment, and a documented test sequence.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) to add a new policy.
 

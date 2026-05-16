@@ -1,0 +1,41 @@
+{
+  "displayName": "Azure Static Web Apps should use the Standard SKU",
+  "description": "Audits Azure Static Web Apps that are deployed on the Free tier. Standard tier is a prerequisite for enterprise security features including private endpoints, enterprise-grade CDN, and managed identity integrations. Set the effect to Deny to block creation or update of Free-tier apps, or Audit to report non-compliant resources without blocking.",
+  "mode": "Indexed",
+  "metadata": {
+    "category": "App Service",
+    "version": "1.0.0"
+  },
+  "parameters": {
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Effect",
+        "description": "Audit logs a compliance warning without blocking; Deny blocks the request; Disabled turns the policy off."
+      },
+      "allowedValues": [
+        "Audit",
+        "Deny",
+        "Disabled"
+      ],
+      "defaultValue": "Audit"
+    }
+  },
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Web/staticSites"
+        },
+        {
+          "field": "Microsoft.Web/staticSites/sku.name",
+          "notEquals": "Standard"
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  }
+}
