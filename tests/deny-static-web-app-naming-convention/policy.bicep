@@ -6,9 +6,9 @@ param testResourceGroupName string
 @allowed(['Audit', 'Deny', 'Disabled'])
 param effect string = 'Deny'
 
-param definitionName string = 'deny-stapp-public-network-access'
+param definitionName string = 'deny-stapp-naming-convention'
 
-var policyDefinitionJson = loadJsonContent('../../definitions/deny-static-web-app-public-network-access.json')
+var policyDefinitionJson = loadJsonContent('../../definitions/deny-static-web-app-naming-convention.json')
 
 resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2025-11-01' = {
   name: definitionName
@@ -27,10 +27,10 @@ module policyAssignment '../modules/assignment-module.bicep' = {
   name: 'policyAssignment'
   scope: resourceGroup(subscription().subscriptionId, testResourceGroupName)
   params: {
-    assignmentName: 'deny-stapp-public-network-access'
+    assignmentName: 'deny-stapp-naming-convention'
     policyDefinitionId: policyDefinition.id
     effect: effect
-    displayName: 'Deny Static Web Apps with public network access enabled'
+    displayName: 'Deny Azure Static Web Apps with non-compliant names (stapp- prefix)'
   }
 }
 

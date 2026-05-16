@@ -9,7 +9,7 @@ param includeNonCompliant bool = false
 module tc2 '../modules/static-web-app.bicep' = {
   name: 'tc2-compliant-disabled'
   params: {
-    name: 'swa-tc2-compliant-disabled'
+    name: 'stapp-tc2-compliant-disabled'
     location: location
     publicNetworkAccess: 'Disabled'
     tags: union(tags, { testCase: 'TC2' })
@@ -21,7 +21,7 @@ module tc2 '../modules/static-web-app.bicep' = {
 module tc3 '../modules/static-web-app.bicep' = if (includeNonCompliant) {
   name: 'tc3-noncompliant-default'
   params: {
-    name: 'swa-tc3-noncompliant-default'
+    name: 'stapp-tc3-noncompliant-default'
     location: location
     publicNetworkAccess: ''
     tags: union(tags, { testCase: 'TC3' })
@@ -34,7 +34,7 @@ module tc3 '../modules/static-web-app.bicep' = if (includeNonCompliant) {
 module tc4 '../modules/static-web-app.bicep' = if (includeNonCompliant) {
   name: 'tc4-noncompliant-existing'
   params: {
-    name: 'swa-tc4-noncompliant-existing'
+    name: 'stapp-tc4-noncompliant-existing'
     location: location
     publicNetworkAccess: 'Enabled'
     tags: union(tags, { testCase: 'TC4' })
