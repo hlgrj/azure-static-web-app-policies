@@ -6,7 +6,7 @@ param testResourceGroupName string
 @allowed(['Audit', 'Deny', 'Disabled'])
 param effect string = 'Deny'
 
-param definitionName string = 'deny-stapp-public-network-access'
+param definitionName string = 'deny-static-web-app-public-network-access'
 
 var policyDefinitionJson = loadJsonContent('../../definitions/deny-static-web-app-public-network-access.json')
 
@@ -27,10 +27,10 @@ module policyAssignment '../modules/assignment-module.bicep' = {
   name: 'policyAssignment'
   scope: resourceGroup(subscription().subscriptionId, testResourceGroupName)
   params: {
-    assignmentName: 'deny-stapp-public-network-access'
+    assignmentName: 'deny-static-web-app-public-network-access'
     policyDefinitionId: policyDefinition.id
+    displayName: policyDefinitionJson.displayName
     effect: effect
-    displayName: 'Deny Static Web Apps with public network access enabled'
   }
 }
 

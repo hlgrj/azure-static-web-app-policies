@@ -11,7 +11,7 @@
       "type": "String",
       "metadata": {
         "displayName": "Effect",
-        "description": "Audit logs a compliance warning without blocking; Deny blocks the request."
+        "description": "Audit logs a compliance warning without blocking; Deny blocks the request; Disabled turns the policy off."
       },
       "allowedValues": [
         "Audit",

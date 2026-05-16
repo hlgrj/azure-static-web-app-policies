@@ -6,7 +6,7 @@ param testResourceGroupName string
 @allowed(['Audit', 'Deny', 'Disabled'])
 param effect string = 'Deny'
 
-param definitionName string = 'deny-stapp-naming-convention'
+param definitionName string = 'deny-static-web-app-naming-convention'
 
 var policyDefinitionJson = loadJsonContent('../../definitions/deny-static-web-app-naming-convention.json')
 
@@ -27,10 +27,10 @@ module policyAssignment '../modules/assignment-module.bicep' = {
   name: 'policyAssignment'
   scope: resourceGroup(subscription().subscriptionId, testResourceGroupName)
   params: {
-    assignmentName: 'deny-stapp-naming-convention'
+    assignmentName: 'deny-static-web-app-naming-convention'
     policyDefinitionId: policyDefinition.id
+    displayName: policyDefinitionJson.displayName
     effect: effect
-    displayName: 'Deny Azure Static Web Apps with non-compliant names (stapp- prefix)'
   }
 }
 
