@@ -11,6 +11,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) to add a new policy.
 | [Deny public network access](#deny-static-web-apps-with-public-network-access-enabled) | `Microsoft.Web/staticSites` | App Service | 1.2.0 | Deny |
 | [Enforce CAF naming convention](#enforce-caf-naming-convention-stapp--prefix) | `Microsoft.Web/staticSites` | App Service | 1.0.0 | Deny |
 | [Require Standard SKU](#azure-static-web-apps-should-use-the-standard-sku) | `Microsoft.Web/staticSites` | App Service | 1.0.0 | Audit |
+| [Require private endpoint](#azure-static-web-apps-should-use-a-private-endpoint) | `Microsoft.Web/staticSites` | App Service | 1.0.0 | Audit only |
 
 ---
 
@@ -47,6 +48,18 @@ Denies creation of Azure Static Web Apps whose name does not start with the `sta
 **Version:** 1.0.0
 
 Audits Azure Static Web Apps deployed on the Free tier. Standard tier is a prerequisite for enterprise security features including private endpoints, enterprise-grade CDN, and managed identity integrations. Set the effect to `Deny` to block creation or update of Free-tier apps, or `Audit` to report non-compliant resources without blocking.
+
+---
+
+### Azure Static Web Apps should use a private endpoint
+
+**Definition:** [`definitions/audit-static-web-app-private-endpoint.json`](definitions/audit-static-web-app-private-endpoint.json)  
+**Resource type:** `Microsoft.Web/staticSites`  
+**Effects:** `Audit` (default), `Disabled`  
+**Category:** App Service  
+**Version:** 1.0.0
+
+Audits Standard-tier Azure Static Web Apps that have no private endpoint connections. A private endpoint ensures traffic traverses the Microsoft backbone rather than the public internet, and is required to enforce meaningful network isolation when public network access is disabled. The policy is scoped to Standard SKU resources only — Free-tier apps do not support private endpoints and are addressed by the SKU policy.
 
 ---
 
