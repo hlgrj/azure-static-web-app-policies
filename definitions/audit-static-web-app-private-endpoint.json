@@ -1,0 +1,46 @@
+{
+  "displayName": "Azure Static Web Apps should use a private endpoint",
+  "description": "Audits Standard-tier Azure Static Web Apps that have no private endpoint connections. Private endpoints ensure traffic traverses the Microsoft backbone rather than the public internet, complementing the public network access policy. Scoped to Standard SKU only — Free-tier apps cannot use private endpoints. Deny is not supported: privateEndpointConnections is externally managed and always absent from the SWA PUT body, so Deny would block all SWA deployments regardless of actual PE state.",
+  "mode": "Indexed",
+  "metadata": {
+    "category": "App Service",
+    "version": "1.0.0"
+  },
+  "parameters": {
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Effect",
+        "description": "Audit logs a compliance warning without blocking; Disabled turns the policy off."
+      },
+      "allowedValues": [
+        "Audit",
+        "Disabled"
+      ],
+      "defaultValue": "Audit"
+    }
+  },
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Web/staticSites"
+        },
+        {
+          "field": "Microsoft.Web/staticSites/sku.name",
+          "equals": "Standard"
+        },
+        {
+          "count": {
+            "field": "Microsoft.Web/staticSites/privateEndpointConnections[*]"
+          },
+          "equals": 0
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  }
+}
