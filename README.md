@@ -8,22 +8,22 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) to add a new policy.
 
 | Policy | Resource type | Category | Version | Default effect |
 |---|---|---|---|---|
-| [Deny public network access](#deny-static-web-apps-with-public-network-access-enabled) | `Microsoft.Web/staticSites` | App Service | 1.2.0 | Deny |
+| [Audit public network access](#azure-static-web-apps-should-have-public-network-access-disabled) | `Microsoft.Web/staticSites` | App Service | 1.3.0 | Audit |
 | [Enforce CAF naming convention](#enforce-caf-naming-convention-stapp--prefix) | `Microsoft.Web/staticSites` | App Service | 1.0.0 | Deny |
 | [Require Standard SKU](#azure-static-web-apps-should-use-the-standard-sku) | `Microsoft.Web/staticSites` | App Service | 1.0.0 | Audit |
 | [Require private endpoint](#azure-static-web-apps-should-use-a-private-endpoint) | `Microsoft.Web/staticSites` | App Service | 1.0.0 | Audit only |
 
 ---
 
-### Deny Static Web Apps with public network access enabled
+### Azure Static Web Apps should have public network access disabled
 
-**Definition:** [`definitions/deny-static-web-app-public-network-access.json`](definitions/deny-static-web-app-public-network-access.json)  
+**Definition:** [`definitions/audit-static-web-app-public-network-access.json`](definitions/audit-static-web-app-public-network-access.json)  
 **Resource type:** `Microsoft.Web/staticSites`  
-**Effects:** `Deny` (default), `Audit`, `Disabled`  
+**Effects:** `Audit` (default), `Deny`, `Disabled`  
 **Category:** App Service  
-**Version:** 1.2.0
+**Version:** 1.3.0
 
-Denies creation or update of Azure Static Web Apps unless `publicNetworkAccess` is explicitly set to `Disabled`. Resources that omit the property are also denied, because Azure defaults to public access when the field is absent.
+Audits Standard-tier Azure Static Web Apps that have public network access enabled. Resources that omit `publicNetworkAccess` are also flagged, because Azure defaults to public access when the field is absent. The policy is scoped to Standard SKU only — Free-tier apps cannot use private endpoints and have no compliant alternative to public access.
 
 ---
 

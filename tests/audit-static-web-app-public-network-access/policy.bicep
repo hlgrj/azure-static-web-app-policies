@@ -4,11 +4,11 @@ targetScope = 'subscription'
 param testResourceGroupName string
 
 @allowed(['Audit', 'Deny', 'Disabled'])
-param effect string = 'Deny'
+param effect string = 'Audit'
 
-param definitionName string = 'deny-static-web-app-public-network-access'
+param definitionName string = 'audit-static-web-app-public-network-access'
 
-var policyDefinitionJson = loadJsonContent('../../definitions/deny-static-web-app-public-network-access.json')
+var policyDefinitionJson = loadJsonContent('../../definitions/audit-static-web-app-public-network-access.json')
 
 resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2025-11-01' = {
   name: definitionName
@@ -27,7 +27,7 @@ module policyAssignment '../modules/assignment-module.bicep' = {
   name: 'policyAssignment'
   scope: resourceGroup(subscription().subscriptionId, testResourceGroupName)
   params: {
-    assignmentName: 'deny-static-web-app-public-network-access'
+    assignmentName: 'audit-static-web-app-public-network-access'
     policyDefinitionId: policyDefinition.id
     displayName: policyDefinitionJson.displayName
     effect: effect
