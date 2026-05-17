@@ -1,0 +1,63 @@
+{
+  "displayName": "Azure Static Web Apps should be connected to an approved GitHub organization",
+  "description": "Audits or denies Azure Static Web Apps whose repositoryUrl does not begin with one of the approved GitHub organization prefixes. Apps connected to repos outside approved organizations bypass supply-chain controls and source-code governance. Apps with no repositoryUrl (e.g. deployed via CI/CD without a GitHub integration) are excluded. Set the effect to Deny once approved organizations are fully inventoried.",
+  "mode": "Indexed",
+  "metadata": {
+    "category": "App Service",
+    "version": "1.0.0"
+  },
+  "parameters": {
+    "allowedOrganizations": {
+      "type": "Array",
+      "metadata": {
+        "displayName": "Allowed GitHub organizations",
+        "description": "List of approved GitHub organization names (without the https://github.com/ prefix). Example: [\"myorg\", \"myorg-sandbox\"]"
+      }
+    },
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Effect",
+        "description": "Audit logs a compliance warning without blocking; Deny blocks the request; Disabled turns the policy off. Set to Deny once approved organizations are fully inventoried."
+      },
+      "allowedValues": [
+        "Audit",
+        "Deny",
+        "Disabled"
+      ],
+      "defaultValue": "Audit"
+    }
+  },
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Web/staticSites"
+        },
+        {
+          "field": "Microsoft.Web/staticSites/repositoryUrl",
+          "exists": true
+        },
+        {
+          "field": "Microsoft.Web/staticSites/repositoryUrl",
+          "notEquals": ""
+        },
+        {
+          "count": {
+            "value": "[parameters('allowedOrganizations')]",
+            "name": "allowedOrg",
+            "where": {
+              "field": "Microsoft.Web/staticSites/repositoryUrl",
+              "like": "[concat('https://github.com/', current('allowedOrg'), '/*')]"
+            }
+          },
+          "equals": 0
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  }
+}

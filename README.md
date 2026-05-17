@@ -13,6 +13,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) to add a new policy.
 | [Require Standard SKU](#azure-static-web-apps-should-use-the-standard-sku) | `Microsoft.Web/staticSites` | App Service | 1.0.0 | Audit |
 | [Require private endpoint](#azure-static-web-apps-should-use-a-private-endpoint) | `Microsoft.Web/staticSites` | App Service | 1.0.0 | Audit only |
 | [Require custom domain](#azure-static-web-apps-should-use-a-custom-domain) | `Microsoft.Web/staticSites` | App Service | 1.0.0 | Audit only |
+| [Restrict repository organization](#azure-static-web-apps-should-be-connected-to-an-approved-github-organization) | `Microsoft.Web/staticSites` | App Service | 1.0.0 | Audit |
 
 ---
 
@@ -73,6 +74,18 @@ Audits Standard-tier Azure Static Web Apps that have no private endpoint connect
 **Version:** 1.0.0
 
 Audits Azure Static Web Apps that have no custom domain configured. Apps without a custom domain are only reachable via the Microsoft-managed default hostname (`*.azurestaticapps.net`), which prevents branded endpoints and customer-managed TLS. Applies to both Free and Standard tier. Deny is not supported because custom domains are child resources managed outside the Static Web App's PUT body — enforcing Deny would block all Static Web App deployments regardless of actual domain state.
+
+---
+
+### Azure Static Web Apps should be connected to an approved GitHub organization
+
+**Definition:** [`definitions/static-web-app-allowed-repository-organizations.json`](definitions/static-web-app-allowed-repository-organizations.json)  
+**Resource type:** `Microsoft.Web/staticSites`  
+**Effects:** `Audit` (default), `Deny`, `Disabled`  
+**Category:** App Service  
+**Version:** 1.0.0
+
+Audits or denies Azure Static Web Apps whose `repositoryUrl` does not begin with one of the approved GitHub organization prefixes supplied via the `allowedOrganizations` parameter. Apps connected to repositories outside approved organizations bypass supply-chain controls and source-code governance. Apps with no `repositoryUrl` (deployed via CI/CD without a GitHub integration) are excluded. Start with `Audit` to inventory existing connections, then switch to `Deny` once all approved organizations are confirmed.
 
 ---
 
