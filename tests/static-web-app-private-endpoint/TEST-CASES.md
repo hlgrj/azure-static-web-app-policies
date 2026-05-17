@@ -1,6 +1,6 @@
 # Test Cases: Azure Static Web Apps should use a private endpoint
 
-Policy definition: [`definitions/audit-static-web-app-private-endpoint.json`](../../definitions/audit-static-web-app-private-endpoint.json)
+Policy definition: [`definitions/static-web-app-private-endpoint.json`](../../definitions/static-web-app-private-endpoint.json)
 
 ## Why Deny is not supported
 

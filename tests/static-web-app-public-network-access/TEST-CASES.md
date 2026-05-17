@@ -1,6 +1,6 @@
 # Test Cases: Azure Static Web Apps should have public network access disabled
 
-Policy definition: [`definitions/audit-static-web-app-public-network-access.json`](../../definitions/audit-static-web-app-public-network-access.json)
+Policy definition: [`definitions/static-web-app-public-network-access.json`](../../definitions/static-web-app-public-network-access.json)
 
 ## Test Cases
 

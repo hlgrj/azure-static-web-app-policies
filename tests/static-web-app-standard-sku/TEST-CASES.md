@@ -1,6 +1,6 @@
 # Test Cases: Azure Static Web Apps should use the Standard SKU
 
-Policy definition: [`definitions/audit-static-web-app-standard-sku.json`](../../definitions/audit-static-web-app-standard-sku.json)
+Policy definition: [`definitions/static-web-app-standard-sku.json`](../../definitions/static-web-app-standard-sku.json)
 
 ## Test Cases
 

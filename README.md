@@ -17,7 +17,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) to add a new policy.
 
 ### Azure Static Web Apps should have public network access disabled
 
-**Definition:** [`definitions/audit-static-web-app-public-network-access.json`](definitions/audit-static-web-app-public-network-access.json)  
+**Definition:** [`definitions/static-web-app-public-network-access.json`](definitions/static-web-app-public-network-access.json)  
 **Resource type:** `Microsoft.Web/staticSites`  
 **Effects:** `Audit` (default), `Deny`, `Disabled`  
 **Category:** App Service  
@@ -41,7 +41,7 @@ Denies creation of Azure Static Web Apps whose name does not start with the `sta
 
 ### Azure Static Web Apps should use the Standard SKU
 
-**Definition:** [`definitions/audit-static-web-app-standard-sku.json`](definitions/audit-static-web-app-standard-sku.json)  
+**Definition:** [`definitions/static-web-app-standard-sku.json`](definitions/static-web-app-standard-sku.json)  
 **Resource type:** `Microsoft.Web/staticSites`  
 **Effects:** `Audit` (default), `Deny`, `Disabled`  
 **Category:** App Service  
@@ -53,7 +53,7 @@ Audits Azure Static Web Apps deployed on the Free tier. Standard tier is a prere
 
 ### Azure Static Web Apps should use a private endpoint
 
-**Definition:** [`definitions/audit-static-web-app-private-endpoint.json`](definitions/audit-static-web-app-private-endpoint.json)  
+**Definition:** [`definitions/static-web-app-private-endpoint.json`](definitions/static-web-app-private-endpoint.json)  
 **Resource type:** `Microsoft.Web/staticSites`  
 **Effects:** `Audit` (default), `Disabled`  
 **Category:** App Service  

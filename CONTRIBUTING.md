@@ -4,13 +4,17 @@
 
 ### 1. Name the policy
 
-Use kebab-case with a prefix that reflects the default effect:
+Use kebab-case describing what the policy governs, not how it responds to violations. The default effect is a configuration detail that can change; the filename should stay stable.
 
 ```
-<effect>-<resource-type-abbreviation>-<what-is-enforced>.json
+<resource-type-abbreviation>-<what-is-governed>.json
 ```
 
-Examples: `deny-static-web-app-naming-convention.json`, `audit-static-web-app-public-network-access.json`, `audit-static-web-app-standard-sku.json`
+Examples: `static-web-app-public-network-access.json`, `static-web-app-standard-sku.json`, `static-web-app-private-endpoint.json`
+
+Exception: if the Deny effect is the *only* meaningful option (e.g. naming conventions on immutable fields), a `deny-` prefix is acceptable since it describes a permanent property of the policy, not a default that might change.
+
+Example: `deny-static-web-app-naming-convention.json`
 
 The filename (without `.json`) becomes the folder name under `tests/`, the ARM `policyDefinitions` resource name, and the `policyAssignments` resource name. Keep them consistent.
 

@@ -3,12 +3,12 @@ targetScope = 'subscription'
 @description('Resource group to scope the policy assignment to.')
 param testResourceGroupName string
 
-@allowed(['Audit', 'Deny', 'Disabled'])
+@allowed(['Audit', 'Disabled'])
 param effect string = 'Audit'
 
-param definitionName string = 'audit-static-web-app-public-network-access'
+param definitionName string = 'static-web-app-private-endpoint'
 
-var policyDefinitionJson = loadJsonContent('../../definitions/audit-static-web-app-public-network-access.json')
+var policyDefinitionJson = loadJsonContent('../../definitions/static-web-app-private-endpoint.json')
 
 resource policyDefinition 'Microsoft.Authorization/policyDefinitions@2025-11-01' = {
   name: definitionName
@@ -27,7 +27,7 @@ module policyAssignment '../modules/assignment-module.bicep' = {
   name: 'policyAssignment'
   scope: resourceGroup(subscription().subscriptionId, testResourceGroupName)
   params: {
-    assignmentName: 'audit-static-web-app-public-network-access'
+    assignmentName: 'static-web-app-private-endpoint'
     policyDefinitionId: policyDefinition.id
     displayName: policyDefinitionJson.displayName
     effect: effect
