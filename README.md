@@ -12,6 +12,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) to add a new policy.
 | [Enforce CAF naming convention](#enforce-caf-naming-convention-stapp--prefix) | `Microsoft.Web/staticSites` | App Service | 1.0.0 | Deny |
 | [Require Standard SKU](#azure-static-web-apps-should-use-the-standard-sku) | `Microsoft.Web/staticSites` | App Service | 1.0.0 | Audit |
 | [Require private endpoint](#azure-static-web-apps-should-use-a-private-endpoint) | `Microsoft.Web/staticSites` | App Service | 1.0.0 | Audit only |
+| [Require custom domain](#azure-static-web-apps-should-use-a-custom-domain) | `Microsoft.Web/staticSites` | App Service | 1.0.0 | Audit only |
 
 ---
 
@@ -60,6 +61,18 @@ Audits Azure Static Web Apps deployed on the Free tier. Standard tier is a prere
 **Version:** 1.0.0
 
 Audits Standard-tier Azure Static Web Apps that have no private endpoint connections. A private endpoint ensures traffic traverses the Microsoft backbone rather than the public internet, and is required to enforce meaningful network isolation when public network access is disabled. The policy is scoped to Standard SKU resources only — Free-tier apps do not support private endpoints and are addressed by the SKU policy.
+
+---
+
+### Azure Static Web Apps should use a custom domain
+
+**Definition:** [`definitions/static-web-app-custom-domain.json`](definitions/static-web-app-custom-domain.json)  
+**Resource type:** `Microsoft.Web/staticSites`  
+**Effects:** `Audit` (default), `Disabled`  
+**Category:** App Service  
+**Version:** 1.0.0
+
+Audits Azure Static Web Apps that have no custom domain configured. Apps without a custom domain are only reachable via the Microsoft-managed default hostname (`*.azurestaticapps.net`), which prevents branded endpoints and customer-managed TLS. Applies to both Free and Standard tier. Deny is not supported because custom domains are child resources managed outside the Static Web App's PUT body — enforcing Deny would block all Static Web App deployments regardless of actual domain state.
 
 ---
 

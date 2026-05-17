@@ -1,0 +1,42 @@
+{
+  "displayName": "Azure Static Web Apps should use a custom domain",
+  "description": "Audits Azure Static Web Apps that have no custom domain configured. Apps without a custom domain are only reachable via the Microsoft-managed default hostname (*.azurestaticapps.net), which prevents branded endpoints and customer-managed TLS. Applies to both Free and Standard tier. Deny is not supported: customDomains are child resources managed outside the SWA PUT body, so Deny would block all SWA deployments regardless of actual domain state.",
+  "mode": "Indexed",
+  "metadata": {
+    "category": "App Service",
+    "version": "1.0.0"
+  },
+  "parameters": {
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Effect",
+        "description": "Audit logs a compliance warning without blocking; Disabled turns the policy off."
+      },
+      "allowedValues": [
+        "Audit",
+        "Disabled"
+      ],
+      "defaultValue": "Audit"
+    }
+  },
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Web/staticSites"
+        },
+        {
+          "count": {
+            "field": "Microsoft.Web/staticSites/customDomains[*]"
+          },
+          "equals": 0
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  }
+}
